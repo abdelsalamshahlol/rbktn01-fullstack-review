@@ -26,15 +26,7 @@ let repoSchema = mongoose.Schema({
   "stargazers_count": Number,
   "watchers_count": Number,
   "language": String,
-  "has_issues": Boolean,
-  "has_downloads": Boolean,
-  "has_wiki": Boolean,
-  "has_pages": Boolean,
-  "mirror_url": String,
-  "forks": Number,
-  "open_issues": Number,
-  "watchers": Number,
-  "default_branch": String
+  "fetched_at": Date, // Date of the last fetch
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
