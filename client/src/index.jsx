@@ -10,7 +10,6 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
-
   }
 
   search(term) {
@@ -22,6 +21,16 @@ class App extends React.Component {
         // Todo handle error in an elegent form
         console.error(err);
       });
+  }
+
+  componentDidMount() {
+    axios.get('/repos')
+      .then(({ data }) => {
+        console.log(data);
+        this.setState({
+          repos: data,
+        })
+      }).catch(e => console.err(err));
   }
 
   render() {

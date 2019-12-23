@@ -19,10 +19,10 @@ let repoSchema = mongoose.Schema({
   "fetched_at": Date, // Date of the last fetch
 });
 
-let save = (repoObj, callback) => {
-  let Repo = mongoose.model('Repo', repoSchema);
-  // let _repo = new Repo(repoObj);
+let Repo = mongoose.model('Repo', repoSchema);
 
+let save = (repoObj, callback) => {
+  // Mass insert objects into the database
   Repo.insertMany(repoObj, (err, res) => {
     if (err) {
       callback(err, {});
@@ -31,4 +31,21 @@ let save = (repoObj, callback) => {
     callback(null, res);
   });
 }
+
+let get = (callback) => {
+  Repo.find({}, null, {
+    limit: 25,
+    sort: {
+      stargazers_count: -1
+    }
+  }, (err, data) => {
+    if (err) {
+      callback(err, null);
+      return;
+    }
+    console.log(data)
+    callback(null, data);
+  });
+}
 module.exports.save = save;
+module.exports.get = get;
