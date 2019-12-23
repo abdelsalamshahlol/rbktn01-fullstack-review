@@ -11,17 +11,18 @@ class Search extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange (e) {
+  onChange(e) {
     this.setState({
       term: e.target.value
     });
 
-    axios.post('/repos').then(({data}) =>{
-      console.log(data);
-    }).catch(e => {
-      // Todo handle error in an elegent form
-      console.error(new e);
-    });
+    axios.post('/repos', { term: this.state.term, test: 'payload' })
+      .then(({ data }) => {
+        console.log(data);
+      }).catch(e => {
+        // Todo handle error in an elegent form
+        console.error(new e);
+      });
   }
 
   search() {
@@ -31,8 +32,8 @@ class Search extends React.Component {
   render() {
     return (<div>
       <h4>Add more repos!</h4>
-     <pre> {this.state.term}</pre>
-      Enter a github username: <input value={this.state.term} onChange={this.onChange}/>
+      <pre> {this.state.term}</pre>
+      Enter a github username: <input value={this.state.term} onChange={this.onChange} />
       <button onClick={this.search}> Add Repos </button>
     </div>)
   }

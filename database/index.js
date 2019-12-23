@@ -23,6 +23,7 @@ let repoSchema = mongoose.Schema({
     index: true,
     unique: true
   },
+  "username": String,
   "name": String,
   "full_name": String,
   "owner": ownerSchema,
@@ -39,13 +40,12 @@ let repoSchema = mongoose.Schema({
   "fetched_at": Date, // Date of the last fetch
 });
 
-let Repo = mongoose.model('Repo', repoSchema);
-
 let save = (repoObj, callback) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
   db.once('open', () => {
+    let Repo = mongoose.model('Repo', repoSchema);
     let repo = new Repo(repoObj);
     repo.save((error, repo) => {
       if (error) {
