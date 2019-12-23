@@ -15,11 +15,11 @@ let getReposByUsername = (username, callback) => {
     }
   };
 
-  request(options, (error, response, body) =>{
+  request(options, (error, response, body) => {
     if (error) {
       return callback(error, {});
     }
-    callback(null, {response, body});
+    callback(null, { response, body });
   });
 
 }

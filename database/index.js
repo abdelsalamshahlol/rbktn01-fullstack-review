@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
+// Connection instance
+let db = mongoose.connection;
+
+// Connection error handler
+db.on('error', () => {
+  console.error.bind(console, 'MongoDB connection error:');
+});
+
 let ownerSchema = mongoose.Schema({
   "login": String,
   "id": Number,
@@ -14,10 +22,8 @@ let repoSchema = mongoose.Schema({
   "name": String,
   "full_name": String,
   "owner": ownerSchema,
-  "private": Boolean,
   "html_url": String,
   "description": String,
-  "fork": Boolean,
   "created_at": Date,
   "updated_at": Date,
   "pushed_at": Date,
@@ -31,10 +37,20 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (/* TODO */) => {
+let save = (callback) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
+  db.once('open', () => {
+    let repo = new Repo({});
+    repo.save((error, book) => {
+      if (error) {
+        return callback(error, {});
+      }
+      callback(null, repo);
+    });
+  });
+
 }
 
 module.exports.save = save;
