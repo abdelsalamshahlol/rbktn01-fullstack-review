@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-// import debounce from 'lodash.debounce';
+import debounce from 'lodash/debounce';
 
 class Search extends React.Component {
   constructor(props) {
@@ -16,13 +16,16 @@ class Search extends React.Component {
       term: e.target.value
     });
 
-    axios.post('/repos', { term: this.state.term, test: 'payload' })
-      .then(({ data }) => {
-        console.log(data);
-      }).catch(e => {
-        // Todo handle error in an elegent form
-        console.error(new e);
-      });
+    // debounce user input
+    debounce(() => {
+      axios.post('/repos', { username: this.state.term })
+        .then(({ data }) => {
+          console.log(data);
+        }).catch(err => {
+          // Todo handle error in an elegent form
+          console.error(err);
+        });
+    }, 2000)();
   }
 
   search() {
