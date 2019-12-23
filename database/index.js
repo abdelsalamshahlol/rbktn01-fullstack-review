@@ -18,7 +18,11 @@ let ownerSchema = mongoose.Schema({
 });
 
 let repoSchema = mongoose.Schema({
-  "id": Number,
+  "id": {
+    type: Number,
+    index: true,
+    unique: true
+  },
   "name": String,
   "full_name": String,
   "owner": ownerSchema,
@@ -37,16 +41,17 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (callback) => {
+let save = (repoObj, callback) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
   db.once('open', () => {
-    let repo = new Repo({});
-    repo.save((error, book) => {
+    let repo = new Repo(repoObj);
+    repo.save((error, repo) => {
       if (error) {
         return callback(error, {});
       }
+      console.log('Repo saved to the database ' + repo.name);
       callback(null, repo);
     });
   });
