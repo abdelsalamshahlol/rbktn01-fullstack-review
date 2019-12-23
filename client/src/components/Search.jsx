@@ -1,6 +1,4 @@
 import React from 'react';
-import axios from 'axios';
-import debounce from 'lodash/debounce';
 
 class Search extends React.Component {
   constructor(props) {
@@ -9,23 +7,13 @@ class Search extends React.Component {
       term: ''
     }
     this.onChange = this.onChange.bind(this);
+    this.search = this.search.bind(this);
   }
 
   onChange(e) {
     this.setState({
       term: e.target.value
     });
-
-    // debounce user input
-    debounce(() => {
-      axios.post('/repos', { username: this.state.term })
-        .then(({ data }) => {
-          console.log(data);
-        }).catch(err => {
-          // Todo handle error in an elegent form
-          console.error(err);
-        });
-    }, 2000)();
   }
 
   search() {

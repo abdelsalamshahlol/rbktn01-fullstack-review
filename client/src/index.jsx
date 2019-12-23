@@ -13,16 +13,22 @@ class App extends React.Component {
 
   }
 
-  search (term) {
+  search(term) {
     console.log(`${term} was searched`);
-    // TODO
+    axios.post('/repos', { username: term })
+      .then(({ data }) => {
+        console.log(data);
+      }).catch(err => {
+        // Todo handle error in an elegent form
+        console.error(err);
+      });
   }
 
-  render () {
+  render() {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
-      <Search onSearch={this.search.bind(this)}/>
+      <RepoList repos={this.state.repos} />
+      <Search onSearch={this.search.bind(this)} />
     </div>)
   }
 }
