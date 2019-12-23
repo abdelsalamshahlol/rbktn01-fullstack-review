@@ -8,7 +8,6 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
-  console.log(req.body.username)
   // TODO - your code here!
   // This route should take the github username provided
   // and get the repo information from the github API, then
@@ -25,7 +24,7 @@ app.post('/repos', function (req, res) {
     helpers.getReposByUsername(req.body.username, (err, data) => {
       //   Save to DB
       // Todo fix the duplicate issue on save
-      data.body.fetched_at = new Date();
+
       //   database.save(data.body, (err, result) => {
       //     if (err) {
       //       res.sendStatus(500);
@@ -36,25 +35,38 @@ app.post('/repos', function (req, res) {
       // });
       // console.log(data.body)
       // return;
-      let d = {
-        "id": 18221276,
-        "username": "octocat",
-        "name": "git-consortium",
-        "full_name": "octocat/git-consortium",
-        "html_url": "https://github.com/octocat/git-consortium",
-        "description": "This repo is for demonstration purposes only.",
-        "created_at": "2014-03-28T17:55:38Z",
-        "clone_url": "https://github.com/octocat/git-consortium.git",
-        "stargazers_count": 7,
-        "language": "HTML",
-        "fetched_at": new Date()
-      }
-      database.save(d, (err, result) => {
+
+      // let d = {
+      //   "id": 18221276,
+      //   "username": "octocat",
+      //   "name": "git-consortium",
+      //   "full_name": "octocat/git-consortium",
+      //   "html_url": "https://github.com/octocat/git-consortium",
+      //   "description": "This repo is for demonstration purposes only.",
+      //   "created_at": "2014-03-28T17:55:38Z",
+      //   "clone_url": "https://github.com/octocat/git-consortium.git",
+      //   "stargazers_count": 7,
+      //   "language": "HTML",
+      //   "fetched_at": new Date()
+      // }
+
+      // for (let repoObj of JSON.parse(data.body)) {
+      let reposData = JSON.parse(data.body).map((val) => {
+        val.fetched_at = new Date();
+        val.username = val.owner.login;
+        return val;
+      });
+
+      // console.log({ repoObj });
+      database.save(reposData, (err, result) => {
         if (err) {
           res.json(err);
+          return;
         }
         res.json(result);
       });
+      // }
+
     });
   } else {
     // return unprocessible entity to client

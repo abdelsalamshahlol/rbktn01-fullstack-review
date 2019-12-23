@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
-var personSchema = mongoose.Schema({
-  name: String,
-  age: Number,
-  nationality: String
-});
-
 let repoSchema = mongoose.Schema({
   "id": {
     type: Number,
@@ -27,9 +21,9 @@ let repoSchema = mongoose.Schema({
 
 let save = (repoObj, callback) => {
   let Repo = mongoose.model('Repo', repoSchema);
-  let _repo = new Repo(repoObj);
+  // let _repo = new Repo(repoObj);
 
-  _repo.save((err, res) => {
+  Repo.insertMany(repoObj, (err, res) => {
     if (err) {
       callback(err, {});
       return;
