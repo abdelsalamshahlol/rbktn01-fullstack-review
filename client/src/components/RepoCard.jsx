@@ -1,9 +1,8 @@
 import React from 'react';
 const RepoCard = ({ repoData }) => {
   return (
-    <div>
-
-    </div>
+    <div>{repoData.name}
+      lorem</div>
   )
 }
 

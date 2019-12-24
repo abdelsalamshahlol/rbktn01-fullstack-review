@@ -8,9 +8,10 @@ const RepoList = (props) => {
 
   return (
     < div >
-      <h4> Repo List Component </h4>
-      There are {props.repos.length} repos.
-    {repoCards}
+      <h4 className="text-primary"> Repo List <small>There are {props.repos.length} repos.</small></h4>
+      <div className="my-5">
+        {repoCards}
+      </div>
     </div >
   );
 }
