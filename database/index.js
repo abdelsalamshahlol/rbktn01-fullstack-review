@@ -43,7 +43,6 @@ let get = (callback) => {
       callback(err, null);
       return;
     }
-    console.log(data)
     callback(null, data);
   });
 }
