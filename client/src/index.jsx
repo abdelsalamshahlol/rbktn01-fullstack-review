@@ -48,7 +48,6 @@ class App extends React.Component {
   componentDidMount() {
     axios.get('/repos')
       .then(({ data }) => {
-        console.log(data);
         this.setState({
           repos: data,
         });
