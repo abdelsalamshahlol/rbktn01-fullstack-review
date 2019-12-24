@@ -35,10 +35,13 @@ class App extends React.Component {
         this.setState({
           repos: data,
         });
-        console.log(data);
+
       }).catch(err => {
-        // Todo handle error in an elegent form
-        console.error(err);
+        $('#alert-problem').html(err.message);
+        $('#alert-problem').fadeIn();
+        setTimeout(() => {
+          $('#alert-problem').fadeOut();
+        }, 3000);
       });
   }
 
@@ -49,7 +52,13 @@ class App extends React.Component {
         this.setState({
           repos: data,
         });
-      }).catch(e => console.err(err));
+      }).catch(e => {
+        $('#alert-problem').html(err.message);
+        $('#alert-problem').fadeIn();
+        setTimeout(() => {
+          $('#alert-problem').fadeOut();
+        }, 3000);
+      });
   }
 
   render() {
