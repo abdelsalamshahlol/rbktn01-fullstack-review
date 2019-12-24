@@ -23,8 +23,13 @@ app.post('/repos', function (req, res) {
   if (req.body.username) {
     helpers.getReposByUsername(req.body.username, (err, data) => {
       //   Save to DB
-      // Todo fix the duplicate issue on save
-      let reposData = JSON.parse(data.body).map((val) => {
+      console.log({ data: data.body.message })
+      if (data.body.hasOwnProperty('message')) {
+        res.status(422).send(data.body.message);
+        return;
+      }
+
+      let reposData = data.body.map((val) => {
         val.fetched_at = new Date();
         val.username = val.owner.login;
         return val;
@@ -35,7 +40,12 @@ app.post('/repos', function (req, res) {
           res.json(err);
           return;
         }
-        res.json(result);
+        getRepos((err, data) => {
+          if (err) {
+            res.sendStatus(500);
+          }
+          res.json(data);
+        });
       });
     });
   } else {
@@ -46,13 +56,22 @@ app.post('/repos', function (req, res) {
 
 app.get('/repos', function (req, res) {
   // This route send back the top 25 repos
-  database.get((err, data) => {
+  getRepos((err, data) => {
     if (err) {
       res.sendStatus(500);
     }
     res.json(data);
-  })
+  });
 });
+
+let getRepos = (callback) => {
+  database.get((err, data) => {
+    if (err) {
+      callback(err, null);
+    }
+    callback(null, data);
+  })
+}
 
 let port = 1128;
 

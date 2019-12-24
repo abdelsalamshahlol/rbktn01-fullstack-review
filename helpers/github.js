@@ -19,7 +19,7 @@ let getReposByUsername = (username, callback) => {
     if (error) {
       return callback(error, {});
     }
-    callback(null, { response, body });
+    callback(null, { response, body: JSON.parse(body) });
   });
 
 }

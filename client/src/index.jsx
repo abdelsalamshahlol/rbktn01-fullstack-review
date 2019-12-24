@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
 
 class App extends React.Component {
@@ -25,6 +26,15 @@ class App extends React.Component {
     console.log(`${term} was searched`);
     axios.post('/repos', { username: term })
       .then(({ data }) => {
+        $('#alert-done').fadeIn();
+        setTimeout(() => {
+          $('#alert-done').fadeOut();
+        }, 3000);
+
+        // rerender the 25 repos
+        this.setState({
+          repos: data,
+        });
         console.log(data);
       }).catch(err => {
         // Todo handle error in an elegent form
@@ -38,7 +48,7 @@ class App extends React.Component {
         console.log(data);
         this.setState({
           repos: data,
-        })
+        });
       }).catch(e => console.err(err));
   }
 
@@ -48,11 +58,14 @@ class App extends React.Component {
         <div className="jumbotron">
           <h1 className="display-4 text-center">Github Fetcher</h1>
           <hr className="display-3" />
-          <RepoList repos={this.state.repos} />
           <Search onSearch={this.search.bind(this)} />
+          <RepoList repos={this.state.repos} />
         </div>
 
         {/* Alert */}
+        <div className="alert alert-success" style={this.alertStyle} role="alert" id="alert-done">
+          Request complete.
+        </div>
         <div className="alert alert-primary" style={this.alertStyle} role="alert" id="alert-cool">
           Copied to clipboard.
         </div>
