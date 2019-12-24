@@ -9,11 +9,17 @@ const RepoCard = ({ repoData }) => {
       .then(
         () => {
           // Success
-          $('.toast').toast('show');
-          console.log('success');
+          $('#alert-cool').fadeIn();
+          setTimeout(() => {
+            $('#alert-cool').fadeOut();
+          }, 3000);
         },
         () => {
           // Failure
+          $('#alert-problem').fadeIn();
+          setTimeout(() => {
+            $('#alert-problem').fadeOut();
+          }, 3000);
         })
   }
 
@@ -29,7 +35,17 @@ const RepoCard = ({ repoData }) => {
           </div>
         </div></div>
       <div className="card-body">
-        <h6 className="display-6"> Description</h6>
+        <div className="row">
+          <div className="col-10">
+            <h6 className="display-6">Description</h6>
+          </div>
+          <div className="col">
+            <div className="text-right">
+              <img src="http://simpleicon.com/wp-content/uploads/star.svg" width="15" />
+              <span className="ml-1 display-6">{repoData.stargazers_count}</span>
+            </div>
+          </div>
+        </div>
         <p className="card-text">{repoData.description}.</p>
         <div className="btn-group" >
           <a href={repoData.html_url} target="_blank" className="btn btn-outline-primary">Visit</a>
