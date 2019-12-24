@@ -23,7 +23,6 @@ class App extends React.Component {
   }
 
   search(term) {
-    console.log(`${term} was searched`);
     axios.post('/repos', { username: term })
       .then(({ data }) => {
         $('#alert-done').fadeIn();

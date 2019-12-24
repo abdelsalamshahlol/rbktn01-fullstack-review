@@ -8,18 +8,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // save the repo information in the database
-
-  // Look for user data on database first
-  // IF found and fetched_at is not older than one day
-  //  return data
-  // Else
-  //  get data from API and update data on DB
-
-  // Get repo from API
+  // Get repos from API
   if (req.body.username) {
     helpers.getReposByUsername(req.body.username, (err, data) => {
       //   Save to DB
