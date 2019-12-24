@@ -23,13 +23,18 @@ let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (repoObj, callback) => {
   // Mass insert objects into the database
-  Repo.insertMany(repoObj, (err, res) => {
-    if (err) {
-      callback(err, {});
-      return;
+  Repo.insertMany(repoObj,
+    {
+      // continure writing on upon finding duplicate documents
+      ordered: false,
     }
-    callback(null, res);
-  });
+    , (err, res) => {
+      if (err) {
+        callback(err, {});
+        return;
+      }
+      callback(null, res);
+    });
 }
 
 let get = (callback) => {
