@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/fetcher');
+mongoose.connect(`mongodb+srv://root:<${process.env.DB_PASS}>@cluster0-cekdo.mongodb.net/test?retryWrites=true&w=majority`);
+// mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
   "id": {
