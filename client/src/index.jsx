@@ -50,7 +50,7 @@ class App extends React.Component {
         this.setState({
           repos: data,
         });
-      }).catch(e => {
+      }).catch(err => {
         $('#alert-problem').html(err.message);
         $('#alert-problem').fadeIn();
         setTimeout(() => {

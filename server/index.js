@@ -12,7 +12,7 @@ app.post('/repos', function (req, res) {
   if (req.body.username) {
     helpers.getReposByUsername(req.body.username, (err, data) => {
       //   Save to DB
-      console.log({ data: data.body.message })
+      console.log({ d: data.body })
       if (data.body.hasOwnProperty('message')) {
         res.status(422).send(data.body.message);
         return;
